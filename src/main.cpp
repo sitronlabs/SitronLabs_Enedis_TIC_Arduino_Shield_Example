@@ -1,7 +1,7 @@
 /* Arduino libraries */
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include <tic.h>
+#include <tic_reader.h>
 #include <wk2132.h>
 
 /* C/C++ libraries */
@@ -9,7 +9,7 @@
 
 /* Peripherals */
 static wk2132 m_wk2132;
-static tic m_tic_parser;
+static tic_reader m_tic_reader;
 static LiquidCrystal m_lcd(8, 9, 9, 4, 5, 6, 7);
 
 /**
@@ -39,9 +39,9 @@ void setup(void) {
      * The parameter is the baudrate: 1200 for HISTORIC (most meters) or 9600 for STANDARD */
     m_wk2132.uarts[0].begin(1200);
 
-    /* Setup tic parser
+    /* Setup tic reader
      * The parameter is a reference the first UART of the WK2132 IC */
-    m_tic_parser.setup(m_wk2132.uarts[0]);
+    m_tic_reader.setup(m_wk2132.uarts[0]);
 }
 
 /**
@@ -50,18 +50,18 @@ void setup(void) {
 void loop(void) {
 
     /* Listen for incoming TIC messages */
-    struct tic_message msg;
-    int res = m_tic_parser.process(msg);
+    struct tic_dataset dataset;
+    int res = m_tic_reader.read(dataset);
     if (res < 0) {
         Serial.printf("Failed to process incoming data! Maybe change baudrate?\r\n");
     } else if (res > 0) {
 
         /* Log received message */
-        Serial.printf("Received message: %s = %s\r\n", msg.name, msg.data);
+        Serial.printf("Received message: %s = %s\r\n", dataset.name, dataset.data);
 
         /* If we have received the BASE consumption index, print it on the LDC display */
-        if (strcmp_P(msg.name, PSTR("BASE")) == 0) {
-            uint32_t base = strtoul(msg.data, NULL, 10);
+        if (strcmp_P(dataset.name, PSTR("BASE")) == 0) {
+            uint32_t base = strtoul(dataset.data, NULL, 10);
             m_lcd.clear();
             m_lcd.setCursor(0, 0);
             m_lcd.print("Index BASE =");
