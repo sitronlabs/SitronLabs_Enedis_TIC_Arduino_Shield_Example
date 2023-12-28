@@ -3,6 +3,9 @@ Arduino add-on board for reading data from Linky electricity meters in France
 
 [![Preview](doc/preview.jpg)](https://www.tindie.com/products/sitronlabs/enedis-tic-arduino-shield/)
 
+### Get one
+<a href="https://www.tindie.com/products/sitronlabs/enedis-tic-arduino-shield/?ref=offsite_badges&utm_source=sellers_sitronlabs&utm_medium=badges&utm_campaign=badge_small"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-smalls.png" alt="I sell on Tindie" width="200" height="55"></a>
+
 ### Description
 This shield plugs into any Arduino Uno shaped board and allows you to read real-time information provided through the official consumer-side Télé-Information Client (TIC) output of the french Linky electricity meters. That information, refreshed approximately every 10 seconds includes:
 
